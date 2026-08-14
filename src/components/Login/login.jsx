@@ -1,0 +1,160 @@
+import React, { useEffect, useState } from 'react';
+import styles from './login.module.css';
+import PanelLogo from '../SharedComponent/CompanyLogo';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { postRequest } from '../../api/Requests';
+import { saveUserDetails, getUserDetails } from '../../utils/authStorage';
+import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+// import io from 'socket.io-client';
+
+// const socket = io(process.env.REACT_APP_SERVER_URL);
+
+const Login = () => {
+    const navigate = useNavigate()
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [username, setUsername]               = useState("");
+    const [password, setPassword]               = useState("");
+    const [errors, setErrors]                   = useState({ username: '', password: '' });
+    const [loading, setLoading]                 = useState(false);
+    const [baseUrl, setBaseUrl]               = useState("");
+
+    const togglePasswordVisibility = () => {
+        if (password.length > 0) {
+            setPasswordVisible(!passwordVisible);
+        }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        let validationErrors = { username: '', password: '' };
+
+        if (!username.trim()) {
+            validationErrors.username = 'Username is required';
+        }
+        if (!password.trim()) {
+            validationErrors.password = 'Password is required';
+        } else if (password.length < 6) {
+            validationErrors.password = 'Password must be at least 6 characters long';
+        }
+        setErrors(validationErrors);
+
+        if (!validationErrors.username && !validationErrors.password) {
+            setLoading(true); 
+            
+            const obj = {
+                email    : username,
+                password : password
+            }
+            postRequest('login', obj, async(response) => {
+                if (response.status === 1 && response.code === 200 && response.userDetails) {
+                    
+                    toast(response.message || response.message[0], { type : 'success' })
+                    saveUserDetails({
+                        id           : response.userDetails.id,
+                        manager_id   : response.userDetails.manager_id,
+                        community_id : response.userDetails.community_id,
+                        manager_name : response.userDetails.manager_name,
+                        manager_email: response.userDetails.manager_email,
+                        manager_contact: response.userDetails.manager_contact,
+                        image        : response.userDetails.image,
+                        Token        : response.Token,
+                        base_url     : response.base_url,
+                    });
+                    
+                    setTimeout(() => {
+                        navigate('/')
+                    }, 1000);
+
+                    // if (Notification.permission !== 'granted') {
+                    //     Notification.requestPermission();
+                    //   }
+                  
+                    //   socket.on('desktop-notification', (data) => {
+                    //     if (Notification.permission === 'granted') {
+                    //       new Notification(data.title, {
+                    //         body: data.message,
+                    //       });
+                    //     }
+                    //   });
+                } else {
+                    toast(response.message, {type:'error'})
+                    setLoading(false);
+                }
+            })
+        }
+    };
+
+    useEffect(() => {
+        const userDetails = getUserDetails();
+        if (userDetails?.access_token) {
+            navigate(-1);
+        }
+    }, [navigate]);
+
+    return (
+        <>
+        <ToastContainer />
+        <div className="container">
+            <div className={styles.formMainContainer}>
+                <div className={styles.formSection}>
+                    <div className={styles.formImgSection}>
+                        <PanelLogo />
+                    </div>
+                    <form className={styles.formContainer} onSubmit={handleSubmit}>
+                        <div className={styles.formFiled}>
+                            <label className={styles.formLabel}>Username</label>
+                            <input
+                                className={styles.formInput}
+                                type="text"
+                                maxLength={50}
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                            {errors.username && <span className={styles.error} style={{color:'red'}}>{errors.username}</span>}
+                        </div>
+                        <div className={styles.formFiled}>
+                            <label className={styles.formLabel}>Password</label>
+                            <div className={styles.passwordContainer}>
+                                <input
+                                    className={styles.formInput}
+                                    type={passwordVisible ? "text" : "password"}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <div
+                                    className={styles.eyeIcon}
+                                    onClick={togglePasswordVisibility}
+                                    style={{ color: passwordVisible ? '#00ffc3' : '#fff' }}
+                                >
+                                    {passwordVisible ? <FaEye /> : <FaEyeSlash />}
+                                </div>
+                            </div>
+                            {errors.password && <span className={styles.error} style={{color:'red'}}>{errors.password}</span>}
+                        </div>
+                        <div className={styles.formPassword}>
+                            Forgot Password?
+                        </div>
+                        <div className={styles.formButtonSection}>
+                            <button disabled={loading} type="submit" className={styles.formButton}>
+                            {loading ? (
+                                    <>
+                                        <span className="spinner-border spinner-border-sm me-2"></span>
+                                        Login...
+                                    </>
+                                ) : (
+                                    "Login"
+                                )}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </>
+    );
+};
+
+
+export default Login;
