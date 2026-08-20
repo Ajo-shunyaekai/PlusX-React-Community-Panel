@@ -50,7 +50,7 @@ const ChargerList = () => {
             if (response.code === 200) {
                 setChargerList(response?.data || []);  
                 setTotalPages(response?.total_page || 1);  
-                setTotalCount(response?.total || 1)
+                setTotalCount(response?.total ?? 0)
             } else {
                 console.log('error in charger-list API', response);
             }

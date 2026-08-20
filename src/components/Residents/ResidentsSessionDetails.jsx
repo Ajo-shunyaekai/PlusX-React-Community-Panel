@@ -20,9 +20,9 @@ const InvoiceDetails = () => {
         const obj = {
             userId      : userDetails?.user_id,
             email       : userDetails?.email,
-            session_id : sessionId,
+            booking_id : sessionId,
         };
-        postRequestWithToken('session-detail', obj, (response) => {
+        postRequestWithToken('booking-details', obj, (response) => {
             if (response.code === 200) {
                 setSessionDetails(response?.data || {});
                  

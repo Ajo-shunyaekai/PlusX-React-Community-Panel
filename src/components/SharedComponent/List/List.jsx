@@ -356,7 +356,7 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
                                             } 
                                         </>
                                     )}
-                                    { pageHeading === 'Scan Charge Invoice List' && (
+                                    { (pageHeading === 'Scan Charge Invoice List' || pageHeading === 'Invoice List') && (
                                         <>
                                             <img src={View} alt="view" onClick={() => handleClickEvent('/community/invoice-details', data.invoice_id)} />
                                         </>

@@ -55,7 +55,7 @@ const DiscussionBoardList = () => {
             if (response.code === 200) {
                 setClubList(response?.data)
                 setTotalPages(response?.total_page || 1);
-                setTotalCount(response?.total || 1)
+                setTotalCount(response?.total ?? 0)
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in discussion-board-list api', response);

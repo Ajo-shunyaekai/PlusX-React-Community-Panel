@@ -55,7 +55,7 @@ const CouponList = () => {
             if (response.code === 200) {
                 setCarList(response?.data)
                 setTotalPages(response?.total_page || 1);
-                setTotalCount(response?.total || 1)
+                setTotalCount(response?.total ?? 0)
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in coupon-list api', response);

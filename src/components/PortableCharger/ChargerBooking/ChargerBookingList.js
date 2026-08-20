@@ -176,7 +176,7 @@ const ChargerBookingList = () => {
                 // console.log(response?.data);
                 setChargerBookingList(response?.data);
                 setTotalPages(response?.total_page || 1);
-                setTotalCount(response?.total || 1)
+                setTotalCount(response?.total ?? 0)
             } else {
                 console.log('error in charger-booking-list api', response);
             }

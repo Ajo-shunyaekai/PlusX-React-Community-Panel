@@ -51,7 +51,7 @@ const ShopList = () => {
             if (response.code === 200) {
                 setShopList(response?.data)
                 setTotalPages(response?.total_page || 1);
-                setTotalCount(response?.total || 1)
+                setTotalCount(response?.total ?? 0)
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in shop-list api', response);

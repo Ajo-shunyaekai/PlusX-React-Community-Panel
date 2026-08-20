@@ -41,7 +41,7 @@ const SignupList = () => {
                 setSignupList(response?.data || []);  
                 setEmiratesList(response.emirates || []);
                 setTotalPages(response?.total_page || 1);  
-                setTotalCount(response?.total || 1)
+                setTotalCount(response?.total ?? 0)
             } else {
                 toast(response.message || response.message[0], { type: 'error' });
                 console.log('error in rider-list API', response);

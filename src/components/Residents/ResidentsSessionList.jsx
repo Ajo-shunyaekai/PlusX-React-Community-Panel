@@ -42,14 +42,14 @@ const ResidentsSessionList = () => {
             page_no : page,
             ...appliedFilters,
         }
-        postRequestWithToken('session-list', obj, async(response) => {
+        postRequestWithToken('booking-list', obj, async(response) => {
             if (response.code === 200) {
                 setInvoiceList(response?.data)
                 setTotalPages(response?.total_page || 1); 
-                setTotalCount(response?.total || 1);
+                setTotalCount(response?.total ?? 0);
             } else {
                 // toast(response.message, {type:'error'})
-                console.log('error in invoice-list api', response);
+                console.log('error in booking-list api', response);
             }
             setLoading(false);
         })

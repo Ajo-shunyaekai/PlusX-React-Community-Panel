@@ -77,7 +77,7 @@ const TimeSlotList = () => {
                 }));
                 setTimeSlotList(updatedData)
                 setTotalPages(response?.total_page || 1);
-                setTotalCount(response?.total || 1)
+                setTotalCount(response?.total ?? 0)
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in pick-and-drop-slot-list api', response);

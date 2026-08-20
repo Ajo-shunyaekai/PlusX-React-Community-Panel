@@ -40,11 +40,11 @@ const ResidentsInvoiceList = () => {
             page_no : page,
             ...appliedFilters,
         }
-        postRequestWithToken('scan-charge-invoice-list', obj, async(response) => {
+        postRequestWithToken('invoice-list', obj, async(response) => {
             if (response.code === 200) {
                 setInvoiceList(response?.data)
                 setTotalPages(response?.total_page || 1); 
-                setTotalCount(response?.total || 1);
+                setTotalCount(response?.total ?? 0);
             } else {
                 // toast(response.message, {type:'error'})
                 console.log('error in invoice-list api', response);
@@ -86,19 +86,19 @@ const ResidentsInvoiceList = () => {
                 <>
                     <List 
                         tableHeaders={["Resident Name", "Community", "Area", "kWh Allocated", "kWh Used", "Per kW Charge", "Price (AED)", "Over Time (AED)", "Total (AED)", "Status", "Action"]}
-                        pageHeading = "Scan Charge Invoice List"
+                        pageHeading = "Invoice List"
                         listData = {invoiceList}
                         keyMapping = {[
                             { key: 'resident_name',       label: 'Resident Name' },
                             { key: 'community_name',      label: 'Community' },
                             { key: 'area_name',           label: 'Area' },
-                            { key: 'kwh_allocated',       label: 'Session Allocated' },
-                            { key: 'total_consumption',   label: 'Session Used' },
-                            { key: 'per_kwh_charge',      label: 'kWh Allocated' },
-                            { key: 'energy_price_total',  label: 'kWh Used' },   
-                            { key: 'extra_charge_total',  label: 'Session Used' }, 
-                            { key: 'total_amount',        label: 'kWh Allocated', format: (price) => price.toFixed(2) }, 
-                            { key: 'invoice_status',      label: 'kWh Used' },                    
+                            { key: 'kwh_allocated',       label: 'kWh Allocated' },
+                            { key: 'total_consumption',   label: 'kWh Used' },
+                            { key: 'per_kwh_charge',      label: 'Per kW Charge' },
+                            { key: 'energy_price_total',  label: 'Price (AED)', format: (price) => Number(price || 0).toFixed(2) },
+                            { key: 'extra_charge_total',  label: 'Over Time (AED)', format: (price) => Number(price || 0).toFixed(2) },
+                            { key: 'total_amount',        label: 'Total (AED)', format: (price) => Number(price || 0).toFixed(2) },
+                            { key: 'invoice_status',      label: 'Status' },
                         ]}
                     />
                     <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />

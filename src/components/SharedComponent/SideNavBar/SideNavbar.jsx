@@ -14,6 +14,7 @@ const SideNavbar = () => {
             residentList: false,
             chargerList: false,
             bookingList: false,
+            invoiceList: false,
         },
     });
     const location = useLocation();
@@ -57,7 +58,7 @@ const SideNavbar = () => {
         setCheckedItems((prevState) => ({
             community: location.pathname.includes("/community")
                 ? prevState.community
-                : { residentList: false, chargerList: false, bookingList: false },
+                : { residentList: false, chargerList: false, bookingList: false, invoiceList: false },
         }));
 
         if (!location.pathname.includes("/community")) {

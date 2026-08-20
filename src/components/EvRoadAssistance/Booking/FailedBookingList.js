@@ -52,7 +52,7 @@ const FailedChargerBookingList = () => {
             if (response.code === 200) {
                 setChargerBookingList(response?.data);
                 setTotalPages(response?.total_page || 1);
-                setTotalCount(response?.total || 1)
+                setTotalCount(response?.total ?? 0)
             } else {
                 console.log('error in rsa-booking-list api', response);
             }

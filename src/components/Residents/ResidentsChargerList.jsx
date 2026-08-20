@@ -41,7 +41,7 @@ const ResidentsChargerList = () => {
             if (response.code === 200) {
                 setChargerList(response?.data || []);
                 setTotalPages(response?.total_page || 1);
-                setTotalCount(response?.total || 0);
+                setTotalCount(response?.total ?? 0);
             } else {
                 console.log('error in community-charger-list api', response);
             }
