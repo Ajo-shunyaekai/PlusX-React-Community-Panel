@@ -5,12 +5,13 @@ import Pagination from '../SharedComponent/Pagination/Pagination'
 import { postRequestWithToken } from '../../api/Requests';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import { getUserDetails } from '../../utils/authStorage';
 // import styles from './Community.module.css';
 import Loader from "../SharedComponent/Loader/Loader";
 import EmptyList from '../SharedComponent/EmptyList/EmptyList';
   
 const ResidentsSessionList = () => {
-    const userDetails                   = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const userDetails                   = getUserDetails();
     const navigate                      = useNavigate();
     const [invoiceList, setInvoiceList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);

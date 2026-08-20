@@ -10,7 +10,7 @@ import DashboardCardItem from "./DashboardCard/DashboardCard";
 import { fetchDashboardDetails } from "../../store/dashboardSlice";
 import Loader from "../SharedComponent/Loader/Loader";
 import NewMapComponet from './Map/NewMap'
-import { getUserDetails } from "../../utils/authStorage";
+import { isAuthenticated } from "../../utils/authStorage";
 // import styles from '../AppSignUp/appsign.module.css';
 // import TopAreaList from '../SharedComponent/Details/TopAreaList';
 // import { getRequestWithToken } from '../../api/Requests';
@@ -19,7 +19,6 @@ import { getUserDetails } from "../../utils/authStorage";
 // import Pagination from '../Pagination/Pagination';
 
 function Index() {
-    const userDetails                = getUserDetails();
     const navigate                   = useNavigate();
     const dispatch                   = useDispatch();
     const { details, status, error } = useSelector((state) => state.dashboard);
@@ -62,12 +61,12 @@ function Index() {
     // }, [currentPage, filters]);
 
     useEffect(() => {
-        if (!userDetails?.access_token) {
-            navigate("/login");
+        if (!isAuthenticated()) {
+            navigate("/login", { replace: true });
             return;
         }
         dispatch(fetchDashboardDetails());
-    }, [dispatch, navigate, userDetails?.access_token]);
+    }, [dispatch, navigate]);
 
     useEffect(() => {
         if (error) {
@@ -78,8 +77,7 @@ function Index() {
     const isLoading = status === "loading";
 
     useEffect(() => {
-        if (!userDetails?.access_token) {
-            navigate("/login");
+        if (!isAuthenticated()) {
             return;
         }
         const intervalCall = setInterval(() => {
@@ -89,7 +87,7 @@ function Index() {
         return () => {
             clearInterval(intervalCall);
         };
-    }, [dispatch, navigate, userDetails?.access_token]);
+    }, [dispatch]);
 
     return (
         <div className="main-container">

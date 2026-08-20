@@ -6,14 +6,15 @@ import { Link, useLocation  } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
-import {postRequestWithToken } from '../../../api/Requests';
+import { postRequestWithToken } from '../../../api/Requests';
+import { getUserDetails, logoutLocally } from '../../../utils/authStorage';
 import moment from 'moment';
 
 import io from 'socket.io-client';
 
 const Header = () => {
     const navigate                                  = useNavigate();
-    const userDetails                               = JSON.parse(sessionStorage.getItem('userDetails'));
+    const userDetails                               = getUserDetails();
     const [isNotificationOpen, setNotificationOpen] = useState(false);
     const [isProfileOpen, setProfileOpen]           = useState(false);
     const [userImage, setUserImage]                 = useState(DefaultProfileIcon);
@@ -107,19 +108,18 @@ const Header = () => {
         setNotificationOpen(false);
     };
     const handleLogout = () => {
+        const currentUser = getUserDetails();
         const logoutPOST = {
-            userId : userDetails?.user_id,
-            email  : userDetails?.email,
+            userId : currentUser?.user_id,
+            email  : currentUser?.email,
         };
+
         postRequestWithToken("logout", logoutPOST, (response) => {
-            if (response.status === 1) {
-                sessionStorage.removeItem("userDetails");
-                navigate("/login");
-            } else {
-                // showErrorToast(response.message);
+            if (response.status !== 1 && response.code !== 200) {
                 console.log("Error in logout API:", response);
             }
         });
+        logoutLocally(navigate);
     };
     const extractIdFromUrl = (hrefUrl) => {
         const parts = hrefUrl.split("/");

@@ -12,11 +12,12 @@ import ModalAssign from '../BookingDetails/ModalAssign'
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { postRequestWithToken } from '../../../api/Requests';
+import { getUserDetails } from '../../../utils/authStorage';
 import { useNavigate } from 'react-router-dom';
 
 const SubHeader = ({ heading, fetchFilteredData, dynamicFilters, filterValues, addButtonProps, searchTerm, count, modalTitle, setRefresh,apiEndPoint, nameKey, setDownloadClicked, handleDownloadClick, scheduleDateChange, scheduleFilters, areaOptions, areaSelected, handleArea, rowOptions, rowSelected, handleRowperPagePage }) => {
 
-    const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
+    const userDetails = getUserDetails();
     const navigate    = useNavigate();
     
     useEffect(() => {

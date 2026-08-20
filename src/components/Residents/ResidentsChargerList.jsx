@@ -4,11 +4,12 @@ import SubHeader from '../SharedComponent/SubHeader/SubHeader';
 import Pagination from '../SharedComponent/Pagination/Pagination';
 import { postRequestWithToken } from '../../api/Requests';
 import { useNavigate } from 'react-router-dom';
+import { getUserDetails } from '../../utils/authStorage';
 import Loader from "../SharedComponent/Loader/Loader";
 import EmptyList from '../SharedComponent/EmptyList/EmptyList';
 
 const ResidentsChargerList = () => {
-    const userDetails                   = JSON.parse(sessionStorage.getItem('userDetails'));
+    const userDetails                   = getUserDetails();
     const navigate                      = useNavigate();
     const [chargerList, setChargerList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);

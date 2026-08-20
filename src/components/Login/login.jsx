@@ -3,7 +3,7 @@ import styles from './login.module.css';
 import PanelLogo from '../SharedComponent/CompanyLogo';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { postRequest } from '../../api/Requests';
-import { saveUserDetails, getUserDetails } from '../../utils/authStorage';
+import { saveUserDetails, isAuthenticated } from '../../utils/authStorage';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -88,9 +88,8 @@ const Login = () => {
     };
 
     useEffect(() => {
-        const userDetails = getUserDetails();
-        if (userDetails?.access_token) {
-            navigate(-1);
+        if (isAuthenticated()) {
+            navigate("/");
         }
     }, [navigate]);
 

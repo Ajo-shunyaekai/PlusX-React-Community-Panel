@@ -5,10 +5,11 @@ import Edit from '../../../assets/images/Pen.svg';
 // import Delete from '../../../assets/images/Delete.svg';
 import View from '../../../assets/images/ViewEye.svg'
 import { useNavigate } from 'react-router-dom';
+import { getUserDetails } from '../../../utils/authStorage';
 
 const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteSlot }) => {
-    const userDetails  = JSON.parse(sessionStorage.getItem('userDetails')); 
-    const departmentId = userDetails.departmentId; //  == 1
+    const userDetails  = getUserDetails();
+    const departmentId = userDetails?.departmentId || '';
 
     const navigate         = useNavigate();
     const handleClickEvent = (hrefLink, id) => navigate(`${hrefLink}/${id}`)

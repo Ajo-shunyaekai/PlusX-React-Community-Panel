@@ -34,3 +34,15 @@ export const clearUserDetails = () => {
     localStorage.removeItem("userDetails");
     sessionStorage.removeItem("userDetails");
 };
+
+export const isAuthenticated = () => {
+    const userDetails = getUserDetails();
+    return Boolean(userDetails?.access_token);
+};
+
+export const logoutLocally = (navigate) => {
+    clearUserDetails();
+    if (navigate) {
+        navigate("/login", { replace: true });
+    }
+};
