@@ -10,6 +10,7 @@ import DashboardCardItem from "./DashboardCard/DashboardCard";
 import { fetchDashboardDetails } from "../../store/dashboardSlice";
 import Loader from "../SharedComponent/Loader/Loader";
 import NewMapComponet from './Map/NewMap'
+import { getUserDetails } from "../../utils/authStorage";
 // import styles from '../AppSignUp/appsign.module.css';
 // import TopAreaList from '../SharedComponent/Details/TopAreaList';
 // import { getRequestWithToken } from '../../api/Requests';
@@ -18,7 +19,7 @@ import NewMapComponet from './Map/NewMap'
 // import Pagination from '../Pagination/Pagination';
 
 function Index() {
-    const userDetails                = JSON.parse(sessionStorage.getItem("userDetails"));
+    const userDetails                = getUserDetails();
     const navigate                   = useNavigate();
     const dispatch                   = useDispatch();
     const { details, status, error } = useSelector((state) => state.dashboard);
@@ -61,15 +62,12 @@ function Index() {
     // }, [currentPage, filters]);
 
     useEffect(() => {
-
-        if (!userDetails || !userDetails.access_token) {
+        if (!userDetails?.access_token) {
             navigate("/login");
             return;
         }
-        if (status === "idle") {
-            dispatch(fetchDashboardDetails());
-        }
-    }, [dispatch, status, userDetails, navigate]);
+        dispatch(fetchDashboardDetails());
+    }, [dispatch, navigate, userDetails?.access_token]);
 
     useEffect(() => {
         if (error) {
@@ -79,21 +77,19 @@ function Index() {
 
     const isLoading = status === "loading";
 
-    // API call every 5 minute
     useEffect(() => {
-        if (!userDetails || !userDetails.access_token) {
-            navigate("/login"); 
-            return; 
+        if (!userDetails?.access_token) {
+            navigate("/login");
+            return;
         }
-        // Set interval to fetch details every 5 minute
         const intervalCall = setInterval(() => {
             dispatch(fetchDashboardDetails());
-        }, 300000); // 300,000 ms = 5 minutes
+        }, 300000);
 
         return () => {
             clearInterval(intervalCall);
         };
-    }, [dispatch, navigate, userDetails]);
+    }, [dispatch, navigate, userDetails?.access_token]);
 
     return (
         <div className="main-container">

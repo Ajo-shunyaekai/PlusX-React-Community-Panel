@@ -57,6 +57,7 @@ const Login = () => {
                         community_id : response.userDetails.community_id,
                         manager_name : response.userDetails.manager_name,
                         manager_email: response.userDetails.manager_email,
+                        email        : response.userDetails.manager_email,
                         manager_contact: response.userDetails.manager_contact,
                         image        : response.userDetails.image,
                         Token        : response.Token,
