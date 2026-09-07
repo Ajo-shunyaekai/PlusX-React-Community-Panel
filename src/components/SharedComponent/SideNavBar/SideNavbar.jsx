@@ -5,6 +5,7 @@ import CompanyLogo from "../CompanyLogo";
 import SideBarLinkItem from "./SideBarLinkItem";
 import SidebarDropdown from "./SidebarDropdown/SidebarDropdown";
 import { menuItems } from "./DropdownMenu";
+import { getUserDetails } from "../../../utils/authStorage";
 
 const SideNavbar = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -18,6 +19,8 @@ const SideNavbar = () => {
         },
     });
     const location = useLocation();
+    const userDetails = getUserDetails();
+    const communityLabel = userDetails?.community_name || "Community";
 
     const handleItemClicked = (menu, id, e) => {
         e.stopPropagation();
@@ -96,7 +99,8 @@ const SideNavbar = () => {
                 <ul className={styles.menuList}>
                     <SideBarLinkItem label="Dashboard" path="/" isActive={isActive("/")} />
                     <SidebarDropdown
-                        menuName="Community"
+                        menuName={communityLabel}
+                        menuKey="community"
                         menuItems={menuItems.community}
                         openDropdown={openDropdown}
                         handleItemClick={(id, e) => handleItemClicked("community", id, e)}

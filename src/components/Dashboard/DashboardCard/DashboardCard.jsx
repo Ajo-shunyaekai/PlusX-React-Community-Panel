@@ -43,22 +43,22 @@ const DashboardCard = ({ details }) => {
 
   const cardData = [
     {
+      icon: PODBooking,
+      count: getCountFromDetails(details, "Charger Bookings", "total_charger_bookings"),
+      title: "Bookings",
+      route: "/community/booking-list",
+    },
+    {
       icon: PersonImage,
       count: getCountFromDetails(details, "Residents", "total_residents"),
-      title: "Resident Count",
+      title: "Total No.of Residents",
       route: "/community/resident-list",
     },
     {
       icon: PublicChargersImage,
       count: getCountFromDetails(details, "Chargers", "total_chargers"),
-      title: "Charger Count",
+      title: "Total No of Chargers",
       route: "/community/charger-list",
-    },
-    {
-      icon: PODBooking,
-      count: getCountFromDetails(details, "Charger Bookings", "total_charger_bookings"),
-      title: "Charger Booking Count",
-      route: "/community/booking-list",
     },
     // {
     //   icon: AppSignUpImage,

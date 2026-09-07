@@ -2,8 +2,9 @@ export const saveUserDetails = (details = {}) => {
     const normalized = {
         user_id      : details.user_id ?? details.id ?? null,
         manager_id   : details.manager_id ?? null,
-        community_id : details.community_id ?? null,
-        name         : details.name ?? details.manager_name ?? "",
+        community_id   : details.community_id ?? null,
+        community_name : details.community_name ?? "",
+        name           : details.name ?? details.manager_name ?? "",
         email        : details.email ?? details.manager_email ?? "",
         phone        : details.phone ?? details.manager_contact ?? "",
         image        : details.image ?? "",

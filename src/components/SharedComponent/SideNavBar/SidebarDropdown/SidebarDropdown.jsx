@@ -7,23 +7,26 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 function SidebarDropdown({
   menuName,
+  menuKey,
   menuItems,
   openDropdown,
   handleItemClick,
   toggleDropdown,
   checkedItems,
 }) {
+  const dropdownKey = menuKey || menuName;
+
   return (
     <div className={style.menuItemDiv}>
       <li
         className={style.menuItemdropdown}
-        onClick={() => toggleDropdown(menuName)}
+        onClick={() => toggleDropdown(dropdownKey)}
       >
         {menuName}
         <FontAwesomeIcon icon={faChevronRight} className={style.arrow} />
       </li>
 
-      {openDropdown === menuName && (
+      {openDropdown === dropdownKey && (
         <ul className={style.subMenu}>
           {menuItems.map((item) => (
             <SidebarDropdownItem

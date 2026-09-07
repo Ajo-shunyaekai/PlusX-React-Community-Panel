@@ -52,16 +52,17 @@ const Login = () => {
                     
                     toast(response.message || response.message[0], { type : 'success' })
                     saveUserDetails({
-                        id           : response.userDetails.id,
-                        manager_id   : response.userDetails.manager_id,
-                        community_id : response.userDetails.community_id,
-                        manager_name : response.userDetails.manager_name,
-                        manager_email: response.userDetails.manager_email,
-                        email        : response.userDetails.manager_email,
+                        id             : response.userDetails.id,
+                        manager_id     : response.userDetails.manager_id,
+                        community_id   : response.userDetails.community_id,
+                        community_name : response.userDetails.community_name,
+                        manager_name   : response.userDetails.manager_name,
+                        manager_email  : response.userDetails.manager_email,
+                        email          : response.userDetails.manager_email,
                         manager_contact: response.userDetails.manager_contact,
-                        image        : response.userDetails.image,
-                        Token        : response.Token,
-                        base_url     : response.base_url,
+                        image          : response.userDetails.image,
+                        Token          : response.Token,
+                        base_url       : response.base_url,
                     });
                     
                     setTimeout(() => {
