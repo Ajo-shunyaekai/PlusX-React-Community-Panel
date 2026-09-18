@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import BookingImageSection from '../SharedComponent/Details/BookingDetails/BookingImageSection.jsx'
- 
+import { getUserDetails } from '../../utils/authStorage';
 
 import SubHeader from '../SharedComponent/SubHeader/SubHeader';
 import Pagination from '../SharedComponent/Pagination/Pagination';
@@ -18,7 +18,7 @@ import ResidentSessionList from '../SharedComponent/Details/ResidentSessionList'
 import ResidentInvoiceList from '../SharedComponent/Details/ResidentInvoiceList';
 
 const ResidentsDetails = () => {
-    const userDetails                           = JSON.parse(sessionStorage.getItem('userDetails'));
+    const userDetails                           = getUserDetails();
     const { residentId }                        = useParams(); 
     const navigate                              = useNavigate();
     const [residentDetails, setResidentDetails] = useState();

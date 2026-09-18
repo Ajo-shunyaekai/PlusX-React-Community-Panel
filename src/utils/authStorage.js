@@ -31,6 +31,18 @@ export const getUserDetails = () => {
     }
 };
 
+/** Restore sessionStorage from localStorage after a tab/window close. */
+export const rehydrateSession = () => {
+    try {
+        const local = localStorage.getItem("userDetails");
+        if (local && !sessionStorage.getItem("userDetails")) {
+            sessionStorage.setItem("userDetails", local);
+        }
+    } catch {
+        // ignore storage errors
+    }
+};
+
 export const clearUserDetails = () => {
     localStorage.removeItem("userDetails");
     sessionStorage.removeItem("userDetails");

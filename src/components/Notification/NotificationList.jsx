@@ -8,10 +8,11 @@ import moment from 'moment';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import { getUserDetails } from '../../utils/authStorage';
 
 
 const NotificationList = () => {
-    const userDetails                           = JSON.parse(sessionStorage.getItem('userDetails')); 
+    const userDetails                           = getUserDetails(); 
     const navigate                              = useNavigate()
     const [notifications, setNotifications]     = useState([]);
     const [currentPage, setCurrentPage]         = useState(1);

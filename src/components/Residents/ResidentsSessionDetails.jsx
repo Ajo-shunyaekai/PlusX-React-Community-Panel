@@ -9,9 +9,10 @@ import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import BookingImageSection from '../SharedComponent/Details/BookingDetails/BookingImageSection.jsx'
+import { getUserDetails } from '../../utils/authStorage';
  
 const InvoiceDetails = () => {
-    const userDetails                         = JSON.parse(sessionStorage.getItem('userDetails'));
+    const userDetails                         = getUserDetails();
     const { sessionId }                       = useParams(); 
     const navigate                            = useNavigate();
     const [sessionDetails, setSessionDetails] = useState();

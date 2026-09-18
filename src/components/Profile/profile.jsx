@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import styles from "./profile.module.css";
 import EmailIcon from "../../assets/images/Email.svg";
 import PhoneIcon from "../../assets/images/Mobile.svg";
+import { getUserDetails } from "../../utils/authStorage";
 
 const Profile = () => {
   const [userDetails, setUserDetails] = useState(null);
   const [profileImage, setProfileImage] = useState("");
 
   useEffect(() => {
-    const storedDetails = sessionStorage.getItem("userDetails");
-    if (storedDetails) {
-      const parsedDetails = JSON.parse(storedDetails);
+    const parsedDetails = getUserDetails();
+    if (parsedDetails?.access_token) {
       setUserDetails(parsedDetails);
       const imagePath = `${parsedDetails.base_url}${parsedDetails.image}`;
       setProfileImage(imagePath);

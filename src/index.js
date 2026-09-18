@@ -5,6 +5,9 @@ import './index.css';
 import './assets/css/main.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { rehydrateSession } from './utils/authStorage';
+
+rehydrateSession();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

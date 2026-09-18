@@ -6,13 +6,14 @@ import { postRequestWithToken } from '../../api/Requests';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import ScanChargeInvoice from '../../components/SharedComponent/Invoice/ScanChargeInvoice';
+import { getUserDetails } from '../../utils/authStorage';
  
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 
 const AddInvoice = () => {
-    const userDetails           = JSON.parse(sessionStorage.getItem('userDetails'));
+    const userDetails           = getUserDetails();
     const navigate              = useNavigate();
     const [errors, setErrors]   = useState({});
     const [loading, setLoading] = useState(false);

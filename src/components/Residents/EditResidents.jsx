@@ -11,10 +11,11 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import ReactInputMask from "react-input-mask"
 import Add from '../../assets/images/Add.svg';
+import { getUserDetails } from '../../utils/authStorage';
 
 const EditResidents = () => {
     const { residentId }        = useParams()
-    const userDetails           = JSON.parse(sessionStorage.getItem('userDetails'));
+    const userDetails           = getUserDetails();
     const navigate              = useNavigate();
     const [errors, setErrors]   = useState({});
     const [loading, setLoading] = useState(false);
