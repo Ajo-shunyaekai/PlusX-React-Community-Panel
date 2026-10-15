@@ -115,8 +115,8 @@ const ResidentsDetails = () => {
         };
         postRequestWithToken('booking-list', obj, (response) => {
             if (response.code === 200) {
-                setSessionList(response?.data);
-                setTotalPages(response?.totalPage || 1);
+                setSessionList(response?.data || []);
+                setTotalPages(response?.total_page || 1);
                 setTotalCount(response?.total ?? 0)
             }
         });
@@ -132,14 +132,15 @@ const ResidentsDetails = () => {
         name  : 'search_text', 
         type  : 'text'
     }];
-    const invoiceFetchFilteredData = (newFilters = {}) => {   
-        setFilters(newFilters);  
-        setCurrentPage(1); 
-    };
+    const [invoiceFilters, setInvoiceFilters]         = useState({start_date: null,end_date: null});
     const [invoiceList, setInvoiceList]               = useState([]);
     const [invoiceCurrentPage, setInvoiceCurrentPage] = useState(1);
     const [invoicetotalCount, setInvoiceTotalCount]   = useState(0);
     const [invoicetotalPages, setInvoiceTotalPages]   = useState(1);
+    const invoiceFetchFilteredData = (newFilters = {}) => {   
+        setInvoiceFilters(newFilters);  
+        setInvoiceCurrentPage(1); 
+    };
     const invoiceHeaders = [
         "Invoice ID", "Resident Name", "Community", "Area", "kWh Allocated", "kWh Used", "Per kW Charge", "Price (AED)", "Over Time (AED)", "Total (AED)", "Status", "Action"
     ];
@@ -156,15 +157,16 @@ const ResidentsDetails = () => {
         };
         postRequestWithToken('invoice-list', obj, (response) => {
             if (response.code === 200) {
-                setInvoiceList(response?.data);
-                setInvoiceTotalPages(response?.totalPage || 1);
+                setInvoiceList(response?.data || []);
+                setInvoiceTotalPages(response?.total_page || 1);
                 setInvoiceTotalCount(response?.total ?? 0)
             }
         });
     };
     useEffect(() => {
-        fetchInvoiceList(currentPage, filters);
-    }, [ currentPage, filters ]);
+        if (!residentDetails?.resident_mobile) return;
+        fetchInvoiceList(invoiceCurrentPage, invoiceFilters);
+    }, [ invoiceCurrentPage, invoiceFilters, residentDetails?.resident_mobile ]);
 
     return (
         <div className='main-container'>
@@ -196,7 +198,7 @@ const ResidentsDetails = () => {
             <div style={{margin : "0px 10px 0px 15px" }}>
                 <SubHeader heading = "Invoice History"
                     count={invoicetotalCount}
-                    filterValues={invoiceSearchTerm}
+                    filterValues={invoiceFilters}
                     fetchFilteredData={invoiceFetchFilteredData}
                     searchTerm= {invoiceSearchTerm}
                 />
