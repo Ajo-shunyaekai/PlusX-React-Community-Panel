@@ -357,6 +357,11 @@ const List = ({ list, tableHeaders, listData, keyMapping, pageHeading, onDeleteS
                                             } 
                                         </>
                                     )}
+                                    { pageHeading === 'Booking List' && (
+                                        <>
+                                            <img src={View} alt="view" onClick={() => handleClickEvent('/community/session-detail', data.booking_id)} />
+                                        </>
+                                    )}
                                     { (pageHeading === 'Scan Charge Invoice List' || pageHeading === 'Invoice List') && (
                                         <>
                                             <img src={View} alt="view" onClick={() => handleClickEvent('/community/invoice-details', data.invoice_id)} />
