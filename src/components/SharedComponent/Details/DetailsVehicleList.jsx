@@ -8,11 +8,16 @@ const DetailsVehicleList = ({ vehicleList }) => {
     const itemsPerPage = 3; 
 
     useEffect(() => {
-        if (vehicleList) {
-            setTotalPages(Math.ceil(vehicleList.length / itemsPerPage));
-        }
+        const list = Array.isArray(vehicleList) ? vehicleList : [];
+        setTotalPages(Math.max(1, Math.ceil(list.length / itemsPerPage)));
+        setCurrentPage(1);
     }, [vehicleList]);
-    const currentItems = vehicleList?.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+    const safeVehicleList = Array.isArray(vehicleList) ? vehicleList : [];
+    const currentItems = safeVehicleList.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -34,8 +39,8 @@ const DetailsVehicleList = ({ vehicleList }) => {
                     </tr>
                 </thead>
                 <tbody>
-                {currentItems && currentItems.length > 0 ? (
-                    currentItems?.map((vehicle, index) => (
+                {currentItems.length > 0 ? (
+                    currentItems.map((vehicle, index) => (
                         <tr key={index}>
                             <td>{vehicle.vehicle_type}</td>
                             <td>{vehicle.vehicle_code}</td>
@@ -48,7 +53,7 @@ const DetailsVehicleList = ({ vehicleList }) => {
                      ))
                     ) : (
                         <tr>
-                            <td colSpan="12" className={styles.noData}>No Data Available</td>
+                            <td colSpan="7" className={styles.noData}>No Data Available</td>
                         </tr>
                     )}
                 </tbody>

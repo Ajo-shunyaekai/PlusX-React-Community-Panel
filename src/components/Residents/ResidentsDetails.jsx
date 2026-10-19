@@ -16,12 +16,14 @@ import Pagination from '../SharedComponent/Pagination/Pagination';
 
 import ResidentSessionList from '../SharedComponent/Details/ResidentSessionList';
 import ResidentInvoiceList from '../SharedComponent/Details/ResidentInvoiceList';
+import DetailsVehicleList from '../SharedComponent/Details/DetailsVehicleList';
 
 const ResidentsDetails = () => {
     const userDetails                           = getUserDetails();
     const { residentId }                        = useParams(); 
     const navigate                              = useNavigate();
     const [residentDetails, setResidentDetails] = useState();
+    const [vehicleList, setVehicleList]         = useState([]);
     const [filters, setFilters]                 = useState({start_date: null,end_date: null});
      
     const staturArr = { 0 : 'In-active', 1: 'Active' }
@@ -34,8 +36,9 @@ const ResidentsDetails = () => {
         };
         postRequestWithToken('resident-details', obj, (response) => {
             if (response.code === 200) {
-                setResidentDetails(response?.data || {});
-                 
+                const data = response?.data || {};
+                setResidentDetails(data);
+                setVehicleList(data?.residentVehicles || []);
             } else {
                 console.log('error in charger-installation-details API', response);
             }
@@ -174,6 +177,11 @@ const ResidentsDetails = () => {
             <div className={styles.bookingLeftContainer}>
                 <BookingLeftDetails titles={sectionTitles1} content={sectionContent1} 
                 type='chargerInstallation' />
+            </div>
+            <div className="Details-container-section">
+                {vehicleList.length > 0 && (
+                    <DetailsVehicleList vehicleList={vehicleList} />
+                )}
             </div>
             <div style={{margin : "0px 10px 0px 15px" }}>
                 <SubHeader heading = "Session History"
